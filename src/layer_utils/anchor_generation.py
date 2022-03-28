@@ -1,6 +1,27 @@
 from __future__ import absolute_import
 import numpy as np
+import tensorflow as tf
 
+def generate_anchors_pre_tf(height, width, feat_strides=16, anchor_scales=(8, 16, 32), anchor_ratios=(0.5, 1, 2)):
+    """
+    A wrapper function to generate anchors given different scales and
+    ratios.
+    """
+    shift_x = tf.range(width) * feat_strides
+    shift_y = tf.range(height) * feat_strides
+    shift_x, shift_y = tf.meshgrid(shift_x, shift_y)
+    shift_x = tf.reshape(shift_x, [-1]) # reshape to 1D
+    shift_y = tf.reshape(shift_y, [-1]) 
+    shifts = tf.stack((shift_x, shift_y, shift_x, shift_y), axis=1) # vertical stack by row
+    K = tf.multiply(width,height)
+    shifts = tf.transpose(shifts,shape=[1,K,4],perm=[1,0,2]) #reshaping into Kx1x4
+    # basic 9 anchor boxes of shape (9,4)
+    anchors = generate_anchors(ratios=np.array(anchor_ratios), scales=np.array(anchor_scales))
+    A = anchors.shape[0] # number of anchors
+    anchor_constants = tf.constant(anchors.reshape((1,A,4)), dtype=tf.float32) # reshape to 1x9x4
+    length = K*A
+    anchors_tf = tf.reshape(tf.add(anchor_constants,shifts),shape=[length,4]) # reshape to Kx9x4 and dd shift to anchors element wise
+    return tf.cast(anchors_tf,tf.float32), length
 
 def generate_anchors(base_size=16, ratios=[0.5,1,2], scales = 2**np.arange(3,6)):
     """
