@@ -6,8 +6,9 @@ def generate_anchors_pre_tf(height, width, feat_strides=16, anchor_scales=(8, 16
     """
     A wrapper function to generate anchors given different scales and
     ratios.
+    Create uniformly spaced grid with spacing equal to stride
     """
-    shift_x = tf.range(width) * feat_strides
+    shift_x = tf.range(width) * feat_strides # [0,16,32,48] width
     shift_y = tf.range(height) * feat_strides
     shift_x, shift_y = tf.meshgrid(shift_x, shift_y)
     shift_x = tf.reshape(shift_x, [-1]) # reshape to 1D
