@@ -1,0 +1,12 @@
+base:
+  project: FasterRCNN
+
+data_path:
+  cache: data\cache
+  annotations: data\coco\annotations
+  images: data\coco\images
+
+proposal_layer:
+  pre_nms_topN: 12000
+  post_nms_topN: 2000
+  nms_thresh: 0.7
