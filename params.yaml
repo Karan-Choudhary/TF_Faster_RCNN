@@ -10,3 +10,11 @@ proposal_layer:
   pre_nms_topN: 12000
   post_nms_topN: 2000
   nms_thresh: 0.7
+
+anchor_target_layer:
+  rpn_negative_overlap: 0.3
+  rpn_positive_overlap: 0.7
+  rpn_fg_fraction: 0.5
+  rpn_batchsize: 256
+  rpn_bbox_inside_weights: (1.0, 1.0, 1.0, 1.0)
+  rpn_positive_weights: -1.0
