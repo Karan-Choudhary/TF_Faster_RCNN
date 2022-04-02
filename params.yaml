@@ -18,3 +18,14 @@ anchor_target_layer:
   rpn_batchsize: 256
   rpn_bbox_inside_weights: (1.0, 1.0, 1.0, 1.0)
   rpn_positive_weights: -1.0
+
+proposal_target_layer:
+  num_images: 1
+  batch_size: 128
+  fg_fraction: 0.25
+  fg_thresh: 0.5
+  bg_thresh_hi: 0.5
+  bg_thresh_lo: 0.1
+  bbox_inside_weights: (1.0, 1.0, 1.0, 1.0)
+  bbox_normalize_means: (0.0, 0.0, 0.0, 0.0)
+  bbox_normalize_stds: (0.1, 0.1, 0.2, 0.2)
